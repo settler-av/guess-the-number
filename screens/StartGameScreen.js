@@ -7,7 +7,7 @@ const StartGameScreen = props => {
         </View>
     );
 };
-const styes = StyleSheet.create({
+const styles = StyleSheet.create({
     screen
 });
 export default StartGameScreen;

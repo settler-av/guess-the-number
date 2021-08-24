@@ -7,7 +7,7 @@ const Header = props => {
         </Text>
     </View>
 };
-const styes = StyleSheet.create({
+const styles = StyleSheet.create({
     header: {
         width: '100%',
         height: 90,

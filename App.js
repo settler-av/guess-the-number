@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import Header from 'D:/Project/guessTheNumber/guessTheNumber/Components/Header.js';
+import Header from 'D:/Project/guessTheNumber/Components/Header.js';
 
 export default function App() {
   return (
