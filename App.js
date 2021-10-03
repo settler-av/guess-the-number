@@ -1,8 +1,7 @@
-import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 
-import Header from "D:/Project/guessTheNumber/Components/Header.js";
+import Header from "./Components/Header";
 import StartGameScreen from "./screens/StartGameScreen";
 export default function App() {
   return (

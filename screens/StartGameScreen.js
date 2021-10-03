@@ -17,7 +17,7 @@ const StartGameScreen = (props) => {
   const [confirmed, setConfirmed] = useState(false);
   const [selectedNumber, setSelectedNumber] = useState();
 
-  //This will replace any non numeric value
+  //This will replace any non numeric value at the time of entering it in textInput
   const numberInputHandler = (inputText) => {
     setEnteredValue(inputText.replace(/[^0-9]/g, ""));
   };
@@ -27,7 +27,7 @@ const StartGameScreen = (props) => {
     setEnteredValue("");
     setConfirmed(false);
   };
-
+  //will check if input is valid or not and gives alert else
   const confirmInputHandler = () => {
     const chosenNumber = parseInt(enteredValue);
     if (isNaN(chosenNumber)|| chosenNumber <= 0 || chosenNumber > 99) {
@@ -36,6 +36,7 @@ const StartGameScreen = (props) => {
       ]);
       return;
     }
+
     setConfirmed(true);
     setSelectedNumber(chosenNumber);
     setEnteredValue("");
@@ -75,6 +76,8 @@ const StartGameScreen = (props) => {
             </View>
           </View>
         </Card>
+
+        //just dummy output to check whether the information is stored in the set value or not
         {confirmedOutput}
       </View>
     </TouchableWithoutFeedback>
