@@ -78,6 +78,8 @@ const StartGameScreen = (props) => {
         </Card>
 
         //just dummy output to check whether the information is stored in the set value or not
+        //to Do: add your own styles in this output.
+        //DOne till 13 watch 14 to format this
         {confirmedOutput}
       </View>
     </TouchableWithoutFeedback>
