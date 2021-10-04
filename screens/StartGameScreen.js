@@ -1,134 +1,142 @@
-import React, {useState} from "react";
+import React, { useState } from 'react';
 import {
-    View,
-    StyleSheet,
-    Text,
-    TextInput,
-    Button,
-    TouchableWithoutFeedback,
-    Keyboard,
-    Alert,
-} from "react-native";
+  View,
+  Text,
+  StyleSheet,
+  Button,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Alert
+} from 'react-native';
 
-import Card from "../Components/Card";
-import Input from "../Components/Input";
-import NumberContainer from "../Components/NumberContainer";
+import Card from '../components/Card';
+import Input from '../components/Input';
+import NumberContainer from '../components/NumberContainer';
+import BodyText from '../components/BodyText';
+import TitleText from '../components/TitleText';
+import MainButton from '../components/MainButton';
+import Colors from '../constants/colors';
 
-const StartGameScreen = (props) => {
-    const [enteredValue, setEnteredValue] = useState("");
-    const [confirmed, setConfirmed] = useState(false);
-    const [selectedNumber, setSelectedNumber] = useState();
+const StartGameScreen = props => {
+  const [enteredValue, setEnteredValue] = useState('');
+  const [confirmed, setConfirmed] = useState(false);
+  const [selectedNumber, setSelectedNumber] = useState();
 
-    //This will replace any non numeric value at the time of entering it in textInput
-    const numberInputHandler = (inputText) => {
-        setEnteredValue(inputText.replace(/[^0-9]/g, ""));
-    };
+  const numberInputHandler = inputText => {
+    setEnteredValue(inputText.replace(/[^0-9]/g, ''));
+  };
 
-    // to activate reset button
-    const resetInputHandler = () => {
-        setEnteredValue("");
-        setConfirmed(false);
-    };
-    //will check if input is valid or not and gives alert else
-    const confirmInputHandler = () => {
-        const chosenNumber = parseInt(enteredValue);
-        if (isNaN(chosenNumber) || chosenNumber <= 0 || chosenNumber > 99) {
-            Alert.alert("invalid Number!", "Number has to be between 1 to 99.", [
-                {text: "Okay", style: "destructive", onPress: resetInputHandler},
-            ]);
-            return;
-        }
+  const resetInputHandler = () => {
+    setEnteredValue('');
+    setConfirmed(false);
+  };
 
-        setConfirmed(true);
-        setSelectedNumber(chosenNumber);
-        setEnteredValue("");
-        Keyboard.dismiss();
-    };
-    let confirmedOutput;
-    if (confirmed) {
-        confirmedOutput =
-            <Card style={styles.summaryContainer}>
-                <Text style = {{fontSize: 18, }} >Selected Number</Text>
-                <NumberContainer>
-                    {selectedNumber}
-                </NumberContainer>
-                <Button title="START GAME"/>
-            </Card>
-        ;
+  const confirmInputHandler = () => {
+    const chosenNumber = parseInt(enteredValue);
+    if (isNaN(chosenNumber) || chosenNumber <= 0 || chosenNumber > 99) {
+      Alert.alert(
+        'Invalid number!',
+        'Number has to be a number between 1 and 99.',
+        [{ text: 'Okay', style: 'destructive', onPress: resetInputHandler }]
+      );
+      return;
     }
-    return (
-        <TouchableWithoutFeedback
-            onPress={() => {
-                Keyboard.dismiss();
-            }}
-        >
-            <View style={styles.screen}>
-                <Text style={styles.title}>Start a New Game!</Text>
-                <Card style={styles.inputContainer}>
-                    <Text style = {{fontSize: 18}}>Select a Number</Text>
-                    {/* here if you wrong props i.e. maxlength instead of maxLength you will not get an error but this part will not work */}
-                    <Input
-                        style={styles.input}
-                        blurOnSubmit
-                        autoCapitalize="none"
-                        autoCorrect={false}
-                        maxLength={2}
-                        keyboardType="numeric"
-                        onChangeText={numberInputHandler}
-                        value={enteredValue}
-                    />
+    setConfirmed(true);
+    setSelectedNumber(chosenNumber);
+    setEnteredValue('');
+    Keyboard.dismiss();
+  };
 
-                    <View style={styles.buttonContainer}>
-                        <View style={[{width: 90}]}>
-                            <Button title="Reset" onPress={resetInputHandler}/>
-                        </View>
-                        <View styles={[{width: 100}]}>
-                            <Button title="Confirm" onPress={confirmInputHandler}/>
-                        </View>
-                    </View>
-                </Card>
+  let confirmedOutput;
 
-                {/*//just dummy output to check whether the information is stored in the set value or not*/}
-                {/*//to Do: add your own styles in this output.*/}
-                {/*//DOne till 13 watch 14 to format this*/}
-                {confirmedOutput}
-            </View>
-        </TouchableWithoutFeedback>
+  if (confirmed) {
+    confirmedOutput = (
+      <Card style={styles.summaryContainer}>
+        <BodyText>You selected</BodyText>
+        <NumberContainer>{selectedNumber}</NumberContainer>
+        <MainButton onPress={() => props.onStartGame(selectedNumber)}>
+          START GAME
+        </MainButton>
+      </Card>
     );
+  }
+
+  return (
+    <TouchableWithoutFeedback
+      onPress={() => {
+        Keyboard.dismiss();
+      }}
+    >
+      <View style={styles.screen}>
+        <TitleText style={styles.title}>Start a New Game!</TitleText>
+        <Card style={styles.inputContainer}>
+          <BodyText>Select a Number</BodyText>
+          <Input
+            style={styles.input}
+            blurOnSubmit
+            autoCapitalize="none"
+            autoCorrect={false}
+            keyboardType="number-pad"
+            maxLength={2}
+            onChangeText={numberInputHandler}
+            value={enteredValue}
+          />
+          <View style={styles.buttonContainer}>
+            <View style={styles.button}>
+              <Button
+                title="Reset"
+                onPress={resetInputHandler}
+                color={Colors.accent}
+              />
+            </View>
+            <View style={styles.button}>
+              <Button
+                title="Confirm"
+                onPress={confirmInputHandler}
+                color={Colors.primary}
+              />
+            </View>
+          </View>
+        </Card>
+        {confirmedOutput}
+      </View>
+    </TouchableWithoutFeedback>
+  );
 };
+
 const styles = StyleSheet.create({
-    screen: {
-        flex: 1,
-        padding: 10,
-        alignItems: "center", //align items horizontally
-    },
-    title: {
-        fontSize: 20,
-        marginVertical: 10,
-    },
-    inputContainer: {
-        width: 300,
-        maxWidth: "80%",
-        alignItems: "center",
-    },
-    buttonContainer: {
-        flexDirection: "row",
-        width: "100%",
-        justifyContent: "space-around",
-        paddingHorizontal: 15,
-    },
-    button: {
-        width: 70,
-    },
-    input: {
-        width: 50,
-        textAlign: "center",
-    },
-    summaryContainer: {
-        width: 150,
-        height: 150,
-        alignItems: "center",
-        marginTop: 25,
-    }
+  screen: {
+    flex: 1,
+    padding: 10,
+    alignItems: 'center'
+  },
+  title: {
+    fontSize: 20,
+    marginVertical: 10,
+    fontFamily: 'open-sans-bold'
+  },
+  inputContainer: {
+    width: 300,
+    maxWidth: '80%',
+    alignItems: 'center'
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-between',
+    paddingHorizontal: 15
+  },
+  button: {
+    width: 100
+  },
+  input: {
+    width: 50,
+    textAlign: 'center'
+  },
+  summaryContainer: {
+    marginTop: 20,
+    alignItems: 'center'
+  }
 });
+
 export default StartGameScreen;

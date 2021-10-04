@@ -1,16 +1,17 @@
-import React from "react";
-import { View, StyleSheet, Text, TextInput } from "react-native";
-const Input = (props) => {
-  //here i have used spread operator to spread the props and input styles int the styles ={{}}
+import React from 'react';
+import { TextInput, StyleSheet } from 'react-native';
+
+const Input = props => {
   return <TextInput {...props} style={{ ...styles.input, ...props.style }} />;
 };
+
 const styles = StyleSheet.create({
   input: {
-    // backgroundColor: 'red',
     height: 30,
+    borderBottomColor: 'grey',
     borderBottomWidth: 1,
-    borderBottomColor: "grey",
-    marginVertical: 10,
-  },
+    marginVertical: 10
+  }
 });
+
 export default Input;
